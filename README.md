@@ -1,6 +1,6 @@
 # Partiel de front pour S2 A2 NWS 
 
-#### pour clone le projet : 
+#### Pour clone le projet : 
 ```
     git clone https://github.com/Adambizien/partiel-front.git
     npm install
