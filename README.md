@@ -1,6 +1,11 @@
 # Partiel de front pour S2 A2 NWS 
 
-
+#### pour clone le projet : 
+```
+    git clone https://github.com/Adambizien/partiel-front.git
+    npm install
+    npm start
+```
 #### Création du projet :
 ```
     npx create-react-app partiel-front
