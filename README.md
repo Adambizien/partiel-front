@@ -1,22 +1,22 @@
 # Partiel de front pour S2 A2 NWS 
 
-#### Pour clone le projet : 
+### Pour clone le projet : 
 ```
     git clone https://github.com/Adambizien/partiel-front.git
     npm install
     npm start
 ```
-#### Création du projet :
+### Création du projet :
 ```
     npx create-react-app partiel-front
     cd partiel-front/
     npm start
 ```
-#### Création du systéme de route ([ici](https://github.com/Adambizien/partiel-front/blob/main/src/App.js)):
+### Création du systéme de route ([ici](https://github.com/Adambizien/partiel-front/blob/main/src/App.js)):
 ```
     npm install react-router-dom
 ```
-#### Mise en place de tailwind
+### Mise en place de tailwind
 ``` 
   npm install -D tailwindcss
   npx tailwindcss init
