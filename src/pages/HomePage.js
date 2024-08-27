@@ -143,31 +143,33 @@ const HomePage = () => {
             options={genreOptions}
             value={selectedGenres}
             onChange={handleGenreChange}
-            placeholder="Select genres..."
+            placeholder="Filtrer par genre..."
             className="mb-4 md:mb-0"
             classNamePrefix="react-select"
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {movies.length > 0 ? (
+            {movies.length > 0 ? (
             movies.map((movie) => (
-              <div key={movie.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2">{movie.title}</h2>
-                  <p className="text-gray-600 text-sm mb-2 line-clamp-3">{movie.overview}</p>
-                  <p className="text-gray-500 text-xs">Release Date: {movie.release_date}</p>
-                  <p className="text-gray-500 text-xs mt-2">Genres: {getGenresNames(movie.genre_ids)}</p>
+                <a href={`/movie/${movie.id}`} key={movie.id}>
+                <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    className="w-full h-64 object-cover"
+                    />
+                    <div className="p-4">
+                    <h2 className="text-xl font-semibold mb-2">{movie.title}</h2>
+                    <p className="text-gray-600 text-sm mb-2 line-clamp-3">{movie.overview}</p>
+                    <p className="text-gray-500 text-xs">Date de sortie: {movie.release_date}</p>
+                    <p className="text-gray-500 text-xs mt-2">Genres: {getGenresNames(movie.genre_ids)}</p>
+                    </div>
                 </div>
-              </div>
+                </a>
             ))
-          ) : (
-            <p className="text-center text-gray-500">Loading...</p>
-          )}
+            ) : (
+            <p className="text-center text-gray-500">Chargement...</p>
+            )}
         </div>
         <nav aria-label="Page navigation example" className="mt-6">
           <div className="flex justify-center">
@@ -178,7 +180,7 @@ const HomePage = () => {
                   disabled={currentPage === 1}
                   className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-100 hover:text-gray-700"
                 >
-                  <span className="sr-only">Previous</span>
+                  <span className="sr-only">Précédent</span>
                   <svg
                     className="w-3 h-3"
                     aria-hidden="true"
@@ -203,7 +205,7 @@ const HomePage = () => {
                   disabled={currentPage === totalPages}
                   className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-100 hover:text-gray-700"
                 >
-                  <span className="sr-only">Next</span>
+                  <span className="sr-only">Suivant</span>
                   <svg
                     className="w-3 h-3"
                     aria-hidden="true"
