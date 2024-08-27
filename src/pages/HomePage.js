@@ -64,7 +64,7 @@ const HomePage = () => {
       }
       const data = await response.json();
       setMovies(data.results || []);
-      setTotalResults(data.total_results || 0);
+      setTotalResults(data.total_pages || 0);
       setError(null);
     } catch (error) {
       setError('Error fetching movies. Please try again later.');
@@ -83,12 +83,12 @@ const HomePage = () => {
   };
 
   const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= Math.ceil(totalResults / moviesPerPage)) {
+    if (pageNumber >= 1 && pageNumber <= totalResults) {
       setCurrentPage(pageNumber);
     }
   };
 
-  const totalPages = Math.ceil(totalResults / moviesPerPage);
+  const totalPages = totalResults;
 
   const renderPageButtons = () => {
     const pageButtons = [];

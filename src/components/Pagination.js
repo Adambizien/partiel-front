@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Pagination = ({ currentPage, totalPages, handlePageChange, renderPageButtons }) => {
+  
   return (
+
     <nav aria-label="Page navigation example" className="mt-6">
       <div className="flex justify-center">
         <ul className="flex items-center -space-x-px h-10 text-base">
