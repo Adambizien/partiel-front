@@ -3,6 +3,7 @@
 ### Pour clone le projet : 
 ```
     git clone https://github.com/Adambizien/partiel-front.git
+    cd partiel-front
     npm install
     npm start
 ```
@@ -40,3 +41,17 @@
   @tailwind components;
   @tailwind utilities;
 ```
+### Implementer des icon :
+```
+ npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
+```
+
+### Implementer des selecte multiple :
+```
+ npm install react-select
+```
+
+### Mise en place de l'interface home avec la recherche de film [ici](https://github.com/Adambizien/partiel-front/blob/main/src/pages/HomePage.js)
+### Mise en place de l'interface des détails du film [ici](https://github.com/Adambizien/partiel-front/blob/main/src/pages/MovieDetails.js)
+
+
