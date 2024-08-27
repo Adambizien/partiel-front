@@ -1,4 +1,4 @@
-# Partiel de front pour S2 A2 NWS 
+# Partiel de front pour S2 A2 NWS en React
 
 ### Pour clone le projet : 
 ```
