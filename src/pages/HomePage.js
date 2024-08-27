@@ -14,7 +14,6 @@ const HomePage = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const apiKey = process.env.REACT_APP_TMDB_API_KEY;
-  const moviesPerPage = 10;
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -42,6 +41,10 @@ const HomePage = () => {
 
     fetchGenres();
   }, [apiKey]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, selectedGenres]);
 
   const fetchMovies = async (page = 1) => {
     setLoading(true);
