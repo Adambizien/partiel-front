@@ -40,13 +40,12 @@
   @tailwind components;
   @tailwind utilities;
 ```
-
-- Implementer des icon :
+### Implementer des icon :
 ```
  npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons
 ```
 
-- Implementer des selecte multiple :
+### Implementer des selecte multiple :
 ```
  npm install react-select
 ```
