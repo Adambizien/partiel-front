@@ -3,8 +3,8 @@
 ### Pour clone le projet : 
 ```
     git clone https://github.com/Adambizien/partiel-front.git
-    npm install
     cd partiel-front
+    npm install
     npm start
 ```
 ### Création du projet :
