@@ -50,7 +50,7 @@
  npm install react-select
 ```
 
-Mise en place de l'interface home avec la recherche de film [ici](https://github.com/Adambizien/partiel-front/blob/main/src/pages/HomePage.js)
-Mise en place de l'interface de s détails du film [ici](https://github.com/Adambizien/partiel-front/blob/main/src/pages/MovieDetails.js)
+### Mise en place de l'interface home avec la recherche de film [ici](https://github.com/Adambizien/partiel-front/blob/main/src/pages/HomePage.js)
+### Mise en place de l'interface de s détails du film [ici](https://github.com/Adambizien/partiel-front/blob/main/src/pages/MovieDetails.js)
 
 
