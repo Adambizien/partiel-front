@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import SearchBar from '../components/SearchBar';
+import MovieCard from '../components/MovieCard';
+import Pagination from '../components/Pagination';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
@@ -8,6 +11,8 @@ const HomePage = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const apiKey = process.env.REACT_APP_TMDB_API_KEY;
   const moviesPerPage = 10;
 
@@ -24,9 +29,13 @@ const HomePage = () => {
             },
           }
         );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
-        setGenres(data.genres);
+        setGenres(data.genres || []);
       } catch (error) {
+        setError('Error fetching genres. Please try again later.');
         console.error('Error fetching genres:', error);
       }
     };
@@ -35,6 +44,7 @@ const HomePage = () => {
   }, [apiKey]);
 
   const fetchMovies = async (page = 1) => {
+    setLoading(true);
     try {
       const genreFilter = selectedGenres.length > 0 ? `&with_genres=${selectedGenres.map(option => option.value).join(',')}` : '';
       const response = await fetch(
@@ -49,11 +59,18 @@ const HomePage = () => {
           },
         }
       );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       const data = await response.json();
-      setMovies(data.results);
-      setTotalResults(data.total_results);
+      setMovies(data.results || []);
+      setTotalResults(data.total_results || 0);
+      setError(null);
     } catch (error) {
+      setError('Error fetching movies. Please try again later.');
       console.error('Error fetching movies:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,31 +130,11 @@ const HomePage = () => {
     label: genre.name,
   }));
 
-  const getGenresNames = (genreIds) => {
-    return genres
-      .filter(genre => genreIds.includes(genre.id))
-      .map(genre => genre.name)
-      .join(', ');
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-6">
+    <div className="min-h-screen px-4 py-6 bg-gray-100">
       <div className="container max-w-7xl mx-auto">
         <div className="grid gap-6 mb-6 md:grid-cols-2">
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-              </svg>
-            </div>
-            <input
-              type="text"
-              placeholder="Rechercher un film..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
+          <SearchBar query={query} setQuery={setQuery} />
           <Select
             isMulti
             options={genreOptions}
@@ -148,84 +145,31 @@ const HomePage = () => {
             classNamePrefix="react-select"
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {movies.length > 0 ? (
-            movies.map((movie) => (
-                <a href={`/movie/${movie.id}`} key={movie.id}>
-                <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    className="w-full h-64 object-cover"
-                    />
-                    <div className="p-4">
-                    <h2 className="text-xl font-semibold mb-2">{movie.title}</h2>
-                    <p className="text-gray-600 text-sm mb-2 line-clamp-3">{movie.overview}</p>
-                    <p className="text-gray-500 text-xs">Date de sortie: {movie.release_date}</p>
-                    <p className="text-gray-500 text-xs mt-2">Genres: {getGenresNames(movie.genre_ids)}</p>
-                    </div>
-                </div>
-                </a>
-            ))
-            ) : (
-            <p className="text-center text-gray-500">Chargement...</p>
-            )}
-        </div>
-        <nav aria-label="Page navigation example" className="mt-6">
-          <div className="flex justify-center">
-            <ul className="flex items-center -space-x-px h-10 text-base">
-              <li>
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-100 hover:text-gray-700"
-                >
-                  <span className="sr-only">Précédent</span>
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 6 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 1 1 5l4 4"
-                    />
-                  </svg>
-                </button>
-              </li>
-              {renderPageButtons()}
-              <li>
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-100 hover:text-gray-700"
-                >
-                  <span className="sr-only">Suivant</span>
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 6 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 9 4-4-4-4"
-                    />
-                  </svg>
-                </button>
-              </li>
-            </ul>
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong className="font-bold">Erreur :</strong>
+            <span className="block sm:inline"> {error}</span>
           </div>
-        </nav>
+        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {loading ? (
+            <p className="text-center text-gray-500">Chargement...</p>
+          ) : movies.length > 0 ? (
+            movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} genres={genres} />
+            ))
+          ) : (
+            <p className="text-center text-gray-500">Aucun film trouvé.</p>
+          )}
+        </div>
+        {!error && !loading && movies.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+            renderPageButtons={renderPageButtons}
+          />
+        )}
       </div>
     </div>
   );
