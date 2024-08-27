@@ -4,6 +4,7 @@
 ```
     git clone https://github.com/Adambizien/partiel-front.git
     npm install
+    cd partiel-front
     npm start
 ```
 ### Création du projet :
